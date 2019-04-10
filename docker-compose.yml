@@ -21,7 +21,6 @@ services:
     volumes:
       - ./data/srv:/var/www
       - ./data/conf/nginx:/etc/nginx
-    user: 1000:1000
     depends_on:
       - mysql
       - alpine-fpm-php
@@ -40,7 +39,7 @@ services:
     volumes:
       - ./data/srv:/var/www
       - ./data/conf/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
-    user: 1000:1000
+    user: root:root
     networks:
       wp-network:
         aliases:
