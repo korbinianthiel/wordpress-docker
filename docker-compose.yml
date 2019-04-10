@@ -30,6 +30,8 @@ services:
         aliases:
           - nginx
       proxy-network:
+        aliases:
+          - nginx-wp-musikfest
 
   alpine-fpm-php:
     image: hermsi/alpine-fpm-php
