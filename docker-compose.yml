@@ -17,7 +17,7 @@ services:
           - mysql
 
   nginx-wp:
-    image: wordpress-docker/nginx-wp:1.15.11
+    image: wordpress-docker/nginx-wp
     build: data/Docker/nginx
     restart: always
     volumes:
@@ -34,8 +34,7 @@ services:
       proxy-network:
 
   php-fpm-wp:
-    image: wordpress-docker/php-fpm-wp:7.3.4
-    build: data/Docker/php-fpm
+    image: hermsi/alpine-fpm-php
     restart: always
     volumes:
       - ${WWW_ROOT}:/var/www
