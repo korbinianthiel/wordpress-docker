@@ -16,7 +16,7 @@ services:
 
   nginx-wp:
     image: wordpress-docker/nginx-wp
-    build: data/Docker/nginx
+    build: data/docker/nginx
     restart: always
     volumes:
       - ./data/srv:/var/www
