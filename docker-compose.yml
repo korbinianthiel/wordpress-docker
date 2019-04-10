@@ -1,61 +1,61 @@
 version: "3.7"
 services:
 
-  mysql-wp-musikfest:
+  mysql-wp-${SITE}:
     image: mariadb
     environment:
-      - MYSQL_ROOT_PASSWORD=
-      - MYSQL_DATABASE=
-      - MYSQL_USER=
-      - MYSQL_PASSWORD=
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     restart: always
     volumes:
       - mysql-vol-1:/var/lib/mysql
     networks:
-      wp-musikfest-network:
+      wp-${SITE}-network:
         aliases:
           - mysql
 
-  nginx-wp-musikfest:
-    image: musikfest/nginx-wp:1.15.11
+  nginx-wp-${SITE}:
+    image: ${SITE}/nginx-wp:1.15.11
     build: data/Docker/nginx
     restart: always
     volumes:
       - ./data/conf/nginx:/etc/nginx
-      - /var/www/musikfest-schnaitsee:/var/www
+      - /var/www/${SITE_LONG}:/var/www
     depends_on:
-      - mysql-wp-musikfest
-      - php-fpm-wp-musikfest
-      - redis-wp-musikfest
+      - mysql-wp-${SITE}
+      - php-fpm-wp-${SITE}
+      - redis-wp-${SITE}
     networks:
-      wp-musikfest-network:
+      wp-${SITE}-network:
         aliases:
           - nginx
       proxy-network:
 
-  php-fpm-wp-musikfest:
-    image: musikfest/php-fpm-wp:7.3.4
+  php-fpm-wp-${SITE}:
+    image: ${SITE}/php-fpm-wp:7.3.4
     build: data/Docker/php-fpm
     restart: always
     volumes:
-      - /var/www/musikfest-schnaitsee:/var/www
+      - /var/www/${SITE_LONG}:/var/www
       - ./data/conf/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
     networks:
-      wp-musikfest-network:
+      wp-${SITE}-network:
         aliases:
           - php-fpm
 
-  redis-wp-musikfest:
+  redis-wp-${SITE}:
     image: redis:alpine
     restart: always
     networks:
-      wp-musikfest-network:
+      wp-${SITE}-network:
         aliases:
           - redis
 
 networks:
-  wp-musikfest-network:
-    name: wp-musikfest-network
+  wp-${SITE}-network:
+    name: wp-${SITE}-network
   proxy-network:
     external: true
 
