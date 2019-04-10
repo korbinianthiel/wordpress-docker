@@ -1,7 +1,7 @@
 version: "3.7"
 services:
 
-  mysql-wp-${SITE}:
+  mysql:
     image: mariadb
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -12,50 +12,49 @@ services:
     volumes:
       - mysql-vol-1:/var/lib/mysql
     networks:
-      wp-${SITE}-network:
+      wp-network:
         aliases:
           - mysql
 
-  nginx-wp-${SITE}:
-    image: ${SITE}/nginx-wp:1.15.11
+  nginx-wp:
+    image: wordpress-docker/nginx-wp:1.15.11
     build: data/Docker/nginx
     restart: always
     volumes:
       - ./data/conf/nginx:/etc/nginx
-      - /var/www/${SITE_LONG}:/var/www
+      - ${WWW_ROOT}:/var/www
     depends_on:
-      - mysql-wp-${SITE}
-      - php-fpm-wp-${SITE}
-      - redis-wp-${SITE}
+      - mysql
+      - php-fpm-wp
+      - redis
     networks:
-      wp-${SITE}-network:
+      wp-network:
         aliases:
           - nginx
       proxy-network:
 
-  php-fpm-wp-${SITE}:
-    image: ${SITE}/php-fpm-wp:7.3.4
+  php-fpm-wp:
+    image: wordpress-docker/php-fpm-wp:7.3.4
     build: data/Docker/php-fpm
     restart: always
     volumes:
-      - /var/www/${SITE_LONG}:/var/www
+      - ${WWW_ROOT}:/var/www
       - ./data/conf/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
     networks:
-      wp-${SITE}-network:
+      wp-network:
         aliases:
           - php-fpm
 
-  redis-wp-${SITE}:
+  redis:
     image: redis:alpine
     restart: always
     networks:
-      wp-${SITE}-network:
+      wp-network:
         aliases:
           - redis
 
 networks:
-  wp-${SITE}-network:
-    name: wp-${SITE}-network
+  wp-network:
   proxy-network:
     external: true
 
