@@ -19,6 +19,7 @@ RUN     apk update                       && \
             --virtual .build-dependencies   \
                 $PHPIZE_DEPS                \
                 zlib-dev                    \
+                libzip-dev                  \
                 cyrus-sasl-dev              \
                 git                         \
                 autoconf                    \
