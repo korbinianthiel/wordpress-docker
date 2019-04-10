@@ -25,7 +25,7 @@ services:
       - ${WWW_ROOT}:/var/www
     depends_on:
       - mysql
-      - php-fpm-wp
+      - alpine-fpm-php
       - redis
     networks:
       wp-network:
