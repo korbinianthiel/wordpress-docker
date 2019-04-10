@@ -33,7 +33,7 @@ services:
           - nginx
       proxy-network:
 
-  php-fpm-wp:
+  alpine-fpm-php:
     image: hermsi/alpine-fpm-php
     restart: always
     volumes:
