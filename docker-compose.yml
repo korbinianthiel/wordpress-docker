@@ -35,7 +35,8 @@ services:
 
   php-fpm-wp:
     image: wordpress-docker/php-fpm-wp
-    build: data/docker/php-fpm
+    build:
+      context: data/docker/php-fpm
       args:
         - PHP_VERSION=7.3.4
         - PHPREDIS_VERSION=4.3.0
