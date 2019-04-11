@@ -34,7 +34,3 @@ RUN cd /tmp/nginx && \
     /bin/sh -c "./configure ${BASE_CONFIGURE_ARGS} --add-module=/tmp/ngx_cache_purge" && \
     make && make install && \
     rm -rf /tmp/nginx*
-
-# add www-data user
-RUN addgroup --system --gid 82 www-data ; \
-    adduser --system --uid 82 --disabled-password --ingroup www-data www-data
