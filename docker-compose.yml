@@ -51,7 +51,7 @@ services:
           - php-fpm
 
   redis:
-    image: redis:alpine
+    image: redis
     restart: always
     volumes:
       - redis-vol-1:/data
