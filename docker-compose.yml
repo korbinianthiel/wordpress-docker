@@ -49,6 +49,8 @@ services:
   redis:
     image: redis:alpine
     restart: always
+    volumes:
+      - redis-vol-1:/data
     networks:
       wp-network:
 
@@ -59,3 +61,4 @@ networks:
 
 volumes:
   mysql-vol-1:
+  redis-vol-1:
