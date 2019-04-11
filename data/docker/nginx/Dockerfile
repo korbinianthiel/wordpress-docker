@@ -34,3 +34,6 @@ RUN cd /tmp/nginx && \
     /bin/sh -c "./configure ${BASE_CONFIGURE_ARGS} --add-module=/tmp/ngx_cache_purge" && \
     make && make install && \
     rm -rf /tmp/nginx*
+
+# change uid & gid of www-data
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
