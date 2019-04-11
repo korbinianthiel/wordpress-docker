@@ -36,5 +36,5 @@ RUN cd /tmp/nginx && \
     rm -rf /tmp/nginx*
 
 # add www-data user
-RUN addgroup -g 82 -S www-data ; \
-    adduser -u 82 -D -S -G www-data www-data
+RUN addgroup --system --gid 82 www-data ; \
+    adduser --system --uid 82 --disabled-password --ingroup www-data www-data
