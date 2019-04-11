@@ -34,3 +34,7 @@ RUN cd /tmp/nginx && \
     /bin/sh -c "./configure ${BASE_CONFIGURE_ARGS} --add-module=/tmp/ngx_cache_purge" && \
     make && make install && \
     rm -rf /tmp/nginx*
+
+# add www-data user
+RUN addgroup -g 82 -S www-data ; \
+    adduser -u 82 -D -S -G www-data www-data
