@@ -23,7 +23,7 @@ services:
       - ./data/conf/nginx:/etc/nginx
     depends_on:
       - mysql
-      - alpine-fpm-php
+      - php-fpm-wp
       - redis
     networks:
       wp-network:
@@ -33,9 +33,12 @@ services:
         aliases:
           - nginx-wp-musikfest
 
-  alpine-fpm-php:
+  php-fpm-wp:
     image: wordpress-docker/php-fpm-wp
     build: data/docker/php-fpm
+      args:
+        - PHP_VERSION=7.3.4
+        - PHPREDIS_VERSION=4.3.0
     restart: always
     volumes:
       - ./data/srv:/var/www
