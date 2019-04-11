@@ -35,23 +35,18 @@ services:
 
   php-fpm-wp:
     image: wordpress-docker/php-fpm-wp
-    build:
-      context: data/docker/php-fpm
-      args:
-        - PHP_VERSION=7.3.4
-        - PHPREDIS_VERSION=4.3.0
+    build: data/docker/php-fpm
     restart: always
     volumes:
       - ./data/srv:/var/www
       - ./data/conf/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
-    user: root:root
     networks:
       wp-network:
         aliases:
           - php-fpm
 
   redis:
-    image: redis
+    image: redis:alpine
     restart: always
     volumes:
       - redis-vol-1:/data

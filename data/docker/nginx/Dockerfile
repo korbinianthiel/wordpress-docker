@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM nginx
 
 ENV NGX_CACHE_PURGE_VERSION=2.5
 
@@ -37,3 +37,6 @@ RUN cd /tmp/nginx && \
 
 # change uid & gid of www-data
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+
+# remove html folder
+RUN rm -r /var/www/html
