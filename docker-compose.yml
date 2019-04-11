@@ -34,7 +34,8 @@ services:
           - nginx-wp-musikfest
 
   alpine-fpm-php:
-    image: hermsi/alpine-fpm-php
+    image: wordpress-docker/php-fpm-wp
+    build: data/docker/php-fpm
     restart: always
     volumes:
       - ./data/srv:/var/www
