@@ -39,7 +39,7 @@ services:
     restart: always
     volumes:
       - ./data/srv:/var/www
-      - ./data/conf/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
+      - ./data/conf/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
     networks:
       wp-network:
         aliases:
