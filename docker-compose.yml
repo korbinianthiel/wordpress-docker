@@ -31,7 +31,7 @@ services:
           - nginx
       proxy-network:
         aliases:
-          - nginx-wp-musikfest
+          - nginx-${NGINX_PROXY_ALIASE}
 
   php-fpm-wp:
     image: wordpress-docker/php-fpm-wp
