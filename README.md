@@ -1,7 +1,8 @@
 # wordpress-docker
 
 1. Clone repo and rename folder to project name
-2. Create wordpress-docker.conf:
+
+2. Customize wordpress-docker.conf
 
     MYSQL_ROOT_PASSWORD=
     MYSQL_DATABASE=
