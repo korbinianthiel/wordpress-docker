@@ -29,8 +29,6 @@ services:
       wp-network:
         aliases:
           - nginx
-          - ${SITE_URL}
-          - ${SITE_URL_WWW}
       proxy-network:
         aliases:
           - nginx-${NGINX_PROXY_ALIASE}

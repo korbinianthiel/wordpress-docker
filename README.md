@@ -9,8 +9,6 @@
     MYSQL_USER=
     MYSQL_PASSWORD=
     NGINX_PROXY_ALIASE=
-    SITE_URL=
-    SITE_URL_WWW=
 
 3. Build and start Docker containers
 
