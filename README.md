@@ -12,8 +12,9 @@
 
 3. Build and start Docker containers
 
-    docker-compose pull
-    docker-compose up -d
+    docker compose pull
+    docker compose build --pull
+    docker compose up -d
 
 4. Download Wordpress file to data/srv/public
 
@@ -57,3 +58,15 @@
     Settings:
 
         - Enable Object Cache
+
+## Updating
+
+Rebuild the images regularly (e.g. after PHP security releases) to get the latest patches:
+
+    docker compose pull
+    docker compose build --pull
+    docker compose up -d
+
+Check the running PHP version:
+
+    docker compose exec php-fpm-wp php -v

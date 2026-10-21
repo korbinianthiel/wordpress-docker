@@ -1,39 +1,36 @@
-FROM nginx
+FROM nginx:stable AS builder
 
-ENV NGX_CACHE_PURGE_VERSION=2.5
+ENV NGX_CACHE_PURGE_VERSION=3.0.4
 
-# install basic packages and build tools
+# install build tools
 RUN apt-get update && \
     apt-get install --no-install-recommends --no-install-suggests -y \
       wget \
-	  ca-certificates \
+      ca-certificates \
       build-essential \
       libssl-dev \
-      libpcre3 \
-      libpcre3-dev \
-	  zlibc zlib1g zlib1g-dev && \
-    apt-get clean && \
+      libpcre2-dev \
+      zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # download and extract sources
-RUN NGINX_VERSION=`nginx -V 2>&1 | grep "nginx version" | awk -F/ '{ print $2}'` && \
-    cd /tmp && \
-    wget http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz && \
+RUN cd /tmp && \
+    wget https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz && \
     wget https://github.com/nginx-modules/ngx_cache_purge/archive/$NGX_CACHE_PURGE_VERSION.tar.gz \
-         -O ngx_cache_purge-$NGX_CACHE_PURGE_VERSION.tar.gz && \
+         -O ngx_cache_purge.tar.gz && \
     tar -xf nginx-$NGINX_VERSION.tar.gz && \
     mv nginx-$NGINX_VERSION nginx && \
-    rm nginx-$NGINX_VERSION.tar.gz && \
-    tar -xf ngx_cache_purge-$NGX_CACHE_PURGE_VERSION.tar.gz && \
-    mv ngx_cache_purge-$NGX_CACHE_PURGE_VERSION ngx_cache_purge && \
-    rm ngx_cache_purge-$NGX_CACHE_PURGE_VERSION.tar.gz
+    tar -xf ngx_cache_purge.tar.gz && \
+    mv ngx_cache_purge-$NGX_CACHE_PURGE_VERSION ngx_cache_purge
 
-# configure and build
+# build cache purge as dynamic module, binary compatible with the official nginx build
 RUN cd /tmp/nginx && \
-    BASE_CONFIGURE_ARGS=`nginx -V 2>&1 | grep "configure arguments" | cut -d " " -f 3-` && \
-    /bin/sh -c "./configure ${BASE_CONFIGURE_ARGS} --add-module=/tmp/ngx_cache_purge" && \
-    make && make install && \
-    rm -rf /tmp/nginx*
+    ./configure --with-compat --add-dynamic-module=/tmp/ngx_cache_purge && \
+    make modules
+
+FROM nginx:stable
+
+COPY --from=builder /tmp/nginx/objs/ngx_http_cache_purge_module.so /usr/lib/nginx/modules/
 
 # change uid & gid of www-data
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
