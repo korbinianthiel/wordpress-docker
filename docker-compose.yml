@@ -1,7 +1,9 @@
 services:
 
   mysql:
-    image: mariadb
+    # Pinned to a release series: only patch updates on pull. Never pin to an
+    # older series than the data was created with (MariaDB can't downgrade).
+    image: mariadb:13.0
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
