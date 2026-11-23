@@ -9,6 +9,7 @@
     MYSQL_USER=
     MYSQL_PASSWORD=
     NGINX_PROXY_ALIASE=
+    SITE_HOST=           # host name of the WordPress site URL, e.g. www.example.com
 
 3. Build and start Docker containers
 

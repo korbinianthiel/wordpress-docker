@@ -40,6 +40,11 @@ services:
     volumes:
       - ./data/srv:/var/www
       - ./data/conf/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
+    # Resolve the site's own domain to the Docker host, so loopback requests
+    # (wp-cron, REST API, Site Health) reach the reverse proxy directly instead
+    # of going out to the public IP, which fails without hairpin NAT.
+    extra_hosts:
+      - "${SITE_HOST:?Set SITE_HOST in wordpress-docker.conf}:host-gateway"
     networks:
       wp-network:
         aliases:
