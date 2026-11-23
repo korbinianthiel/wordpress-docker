@@ -32,7 +32,7 @@ services:
           # Loopback requests (wp-cron, REST API, Site Health) to the site's own
           # domain go to nginx, which forwards them to the reverse proxy
           # (see data/conf/nginx/stream/loopback.conf).
-          - ${SITE_HOST:?Set SITE_HOST in wordpress-docker.conf}
+          - ${SITE_HOST:?SITE_HOST is not set}
       proxy-network:
         aliases:
           - nginx-${NGINX_PROXY_ALIASE}
